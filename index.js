@@ -64,12 +64,11 @@ const app = new App({
   stateSecret: process.env.SLACK_STATE_SECRET,
   scopes: ["commands", "chat:write"],
   installationStore: new FileInstallationStore({
-    baseDir: "./installations", // Automatically saves tokens for each workspace to disk
+    baseDir: "./installations",
   }),
-  installerOptions: {
-    directInstall: true,
-  },
-  port: process.env.PORT || 3000,
+  appToken: process.env.SLACK_APP_TOKEN,
+  socketMode: true,
+  port: process.env.PORT || 3000
 });
 
 function getJohnPorkWeatherTake(condition, tempC) {
@@ -93,11 +92,6 @@ function getJohnPorkWeatherTake(condition, tempC) {
   return "Decent weather for business calls and minding my own bacon.";
 }
 
-const app = new App({
-  token: process.env.SLACK_BOT_TOKEN,
-  appToken: process.env.SLACK_APP_TOKEN,
-  socketMode: true
-});
 
 app.command("/johnpork-ping", async ({ command, ack, respond }) => {
   const start = Date.now();
