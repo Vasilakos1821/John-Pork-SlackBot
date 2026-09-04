@@ -1,12 +1,58 @@
 require("dotenv").config();
 const axios = require("axios");
-const { App } = require("@slack/bolt");
 
-const app = new App({
-  token: process.env.SLACK_BOT_TOKEN,
-  appToken: process.env.SLACK_APP_TOKEN,
-  socketMode: true
-});
+const johnPorkJokes = [
+  "Why does John Pork never miss a call? Because he's always on the line.",
+  "Why did John Pork get a touchscreen? He wanted to test his swiping snout.",
+  "What is John Pork’s favorite mobile carrier? T-Mobacon.",
+  "Why did John Pork get banned from the butcher shop? Terrible reception.",
+  "What happens when John Pork calls 911? The dispatcher asks if it's spam.",
+  "Why does John Pork wear a suit on FaceTime? Business in the front, snout in the camera.",
+  "Why did John Pork cross the road? To get better 5G reception.",
+  "What's John Pork's default ringtone? The Hog-warts theme song.",
+  "Why was John Pork placed on hold? Too much ham-radio interference.",
+  "How does John Pork take a screenshot? He slams his snout against the glass.",
+  "Why did John Pork reject your call? He saw caller ID and decided to save his bacon.",
+  "What does John Pork say before hanging up? 'Talk to you larder!'",
+  "Why did John Pork buy stock in Apple? He heard they make the best applesauce.",
+  "What is John Pork's favorite social platform? Instaham.",
+  "Why did John Pork get fired from customer support? He hogged the lines all day.",
+  "How does John Pork keep his phone screen clean? Heavy-duty grease wipes.",
+  "What do you call a 3 AM FaceTime from John Pork? A wake-up squeak.",
+  "Why does John Pork hate airplane mode? If pigs can't fly, his phone shouldn't either.",
+  "What happened when John Pork dropped his phone? Pure crackling audio.",
+  "Why is John Pork terrible at poker? He always squeals on a bluff.",
+  "What did John Pork say to the spam caller? 'Stop pigging on my time.'",
+  "Why did John Pork get an unlimited data plan? You can't put a cap on the porkcast.",
+  "How does John Pork sort his contacts? By farm tier.",
+  "Why did John Pork decline the Zoom call? He only does unannounced FaceTime ambushes.",
+  "What’s John Pork’s favorite keyboard key? The space boar.",
+  "Why did John Pork visit the IT desk? His swine-fi stopped working.",
+  "What’s John Pork’s biggest nightmare? The red 1% battery icon.",
+  "Why did John Pork start a podcast? Everyone told him he had a face for radio.",
+  "What app does John Pork use to get around town? Google Oinks.",
+  "Why was John Pork staring blankly at the orange juice carton? It said 'concentrate' during his conference call.",
+  "Why does John Pork hate texting? Hooves were never optimized for QWERTY.",
+  "What did John Pork say when the call dropped? 'Well, that was a boar.'",
+  "Why did John Pork become a digital influencer? To bring home the bacon.",
+  "Why did John Pork dial emergency services? He pulled a serious hamstring.",
+  "How does John Pork end a phone argument? 'I'm hanging up before things get messy in the pen.'",
+  "Why did John Pork inspect the AWS data center? He wanted to see where the cloud truffles were stored.",
+  "What is John Pork’s favorite video game? Call of Duty: Modern Boarfare.",
+  "Why was John Pork taken to court? Illegal wire-tapping in the barn.",
+  "What did Siri tell John Pork? 'I'm sorry, I couldn't understand that squeak.'",
+  "Why does John Pork carry three power banks? A dead pig can't FaceTime.",
+  "What’s John Pork’s favorite music genre? Sow-l and R&B.",
+  "Why did John Pork decline the job offer? The salary was pure chump ribs.",
+  "Why does John Pork love Bluetooth? No cords to trip over in the sty.",
+  "What do you call John Pork when he's lost in thought? A philosophical piglet.",
+  "Why did John Pork call his bank? To check the balance in his piggy bank.",
+  "What happened when John Pork dialed the wrong number? 'Sorry, wrong sty.'",
+  "Why does John Pork despise low battery chimes? They ruin his dramatic entrance.",
+  "What’s John Pork’s favorite browser? Hog-zilla Firefox.",
+  "Why did John Pork set his phone to vibrate? He likes the good vibrations in his trotters.",
+  "What is John Pork’s golden rule? Never decline a call from destiny."
+];
 
 function getJohnPorkWeatherTake(condition, tempC) {
   const desc = condition.toLowerCase();
@@ -29,7 +75,15 @@ function getJohnPorkWeatherTake(condition, tempC) {
   return "Decent weather for business calls and minding my own bacon.";
 }
 
-app.command("/johnpork-ping", async ({ ack, respond }) => {
+const { App } = require("@slack/bolt");
+
+const app = new App({
+  token: process.env.SLACK_BOT_TOKEN,
+  appToken: process.env.SLACK_APP_TOKEN,
+  socketMode: true
+});
+
+app.command("/johnpork-ping", async ({ command, ack, respond }) => {
   const start = Date.now();
   await ack();
   const latency = Date.now() - start;
@@ -80,6 +134,7 @@ app.command("/johnpork-randomquranayah", async ({ ack, respond }) => {
   try {
     const response = await axios.get(`https://api.alquran.cloud/v1/ayah/${randomAyahNumber}/en.asad`);
     const ayah = response.data.data;
+
     await respond({
       response_type: "in_channel",
       text: `John Pork: Here's a random Quranic verse!\n> "${ayah.text}"\n— *Surah ${ayah.surah.englishName} (${ayah.surah.number}:${ayah.numberInSurah})*`
@@ -131,7 +186,56 @@ app.command("/johnpork-food", async ({ ack, respond }) => {
     console.error(err);
     await respond({
       response_type: "in_channel",
-      text: "John Pork dropped his plate! Failed to fetch food."
+      text: "Failed to fetch a food image."
+    });
+  }
+});
+
+app.command("/johnpork-call", async ({ ack, respond }) => {
+  await ack();
+
+  try {
+    const joke = johnPorkJokes[Math.floor(Math.random() * johnPorkJokes.length)];
+
+    await respond({
+      response_type: "in_channel",
+      blocks: [
+        {
+          type: "header",
+          text: {
+            type: "plain_text",
+            text: "📱 Incoming Call: John Pork",
+            emoji: true
+          }
+        },
+        {
+          type: "image",
+          image_url: "https://static.wikia.nocookie.net/the-knee-surgery-operation/images/4/4d/JohnPork.png/revision/latest/thumbnail/width/360/height/450?cb=20241228034018",
+          alt_text: "John Pork calling screen"
+        },
+        {
+          type: "section",
+          text: {
+            type: "mrkdwn",
+            text: `*John Pork says:*\n> "${joke}"`
+          }
+        },
+        {
+          type: "context",
+          elements: [
+            {
+              type: "mrkdwn",
+              text: "📞 _Call Connected_ • Type `/johnpork-call` to call again"
+            }
+          ]
+        }
+      ]
+    });
+  } catch (err) {
+    console.error(err);
+    await respond({
+      response_type: "in_channel",
+      text: "John Pork declined the call."
     });
   }
 });
@@ -139,7 +243,7 @@ app.command("/johnpork-food", async ({ ack, respond }) => {
 app.command("/johnpork-weather", async ({ command, ack, respond }) => {
   await ack();
 
-  const city = command.text.trim() || "London";
+  const city = command.text.trim() || "Palermo";
 
   try {
     const url = `https://wttr.in/${encodeURIComponent(city)}?format=j1`;
@@ -189,7 +293,7 @@ app.command("/johnpork-weather", async ({ command, ack, respond }) => {
           type: "section",
           text: {
             type: "mrkdwn",
-            text: `*John Pork's Take:*\n> "${johnPorkTake}"`
+            text: `*John Pork's Take:*${city.toLowerCase() === "palermo" ? " Hey that's my home town!" : ""}\n> "${johnPorkTake}"`
           }
         }
       ]
@@ -207,13 +311,15 @@ app.command("/johnpork-help", async ({ ack, respond }) => {
   await ack();
   await respond({
     response_type: "in_channel",
-    text: `Available Commands:
+    text:
+`Available Commands:
 /johnpork-ping - Check bot latency
 /johnpork-catfact - Get a cat fact
 /johnpork-joke - Get a random joke
 /johnpork-randomquranayah - Get a random Quranic verse
-/johnpork-food - Get a random meal recommendation
-/johnpork-weather - Check the weather with John Pork`
+/johnpork-food - Get a random food image
+/johnpork-weather - Check the weather with John Pork's take
+/johnpork-call - Receive a call from John Pork`
   });
 });
 
