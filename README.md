@@ -22,11 +22,13 @@ All of his commands start with `/johnpork-`
 He was built as a project for Hack Club but taught me a lot about JS, APIs, Linux SSH, systemd background services, and how to use cloud networking/ngrok so anyone can install him on Slack via OAuth!
 
 ## Commands List:
-- `/johnpork-joke`: random joke
+- `/johnpork-catfact`: random cat fact
 - `/johnpork-weather`: check the weather in your city
 - `/johnpork-call`: get a call from John Pork
 - `/johnpork-ping`: check if the bot is alive and responding
 - `/johnpork-help`: list all available commands
+- `/johnpork-food`: get an image of some delicious food
+- `/johnpork-randomquranayah`: get a random Quran verse
 
 ---
 By: Vasilakos1821
