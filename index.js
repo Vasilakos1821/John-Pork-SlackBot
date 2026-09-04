@@ -54,21 +54,30 @@ const johnPorkJokes = [
   "What is John Pork’s golden rule? Never decline a call from destiny."
 ];
 
-const { App, LogLevel } = require("@slack/bolt");
+const { App} = require("@slack/bolt");
 const { FileInstallationStore } = require("@slack/oauth");
 
 const app = new App({
   signingSecret: process.env.SLACK_SIGNING_SECRET,
   clientId: process.env.SLACK_CLIENT_ID,
   clientSecret: process.env.SLACK_CLIENT_SECRET,
-  stateSecret: process.env.SLACK_STATE_SECRET,
-  scopes: ["commands", "chat:write"],
+  scopes: [
+    "commands",
+    "chat:write",
+    "app_mentions:read",
+    "channels:history",
+  ],
+  // Store authorized workspace tokens locally on Nest
   installationStore: new FileInstallationStore({
     baseDir: "./installations",
   }),
+  installerOptions: {
+    stateVerification: false, // Bypasses the missing CSRF state cookie check
+    directInstall: true,
+  },
   appToken: process.env.SLACK_APP_TOKEN,
   socketMode: true,
-  port: process.env.PORT || 3000
+  port: process.env.PORT || 3000,
 });
 
 function getJohnPorkWeatherTake(condition, tempC) {
@@ -334,6 +343,7 @@ app.command("/johnpork-help", async ({ ack, respond }) => {
 });
 
 (async () => {
-  await app.start();
-  console.log("bot is running!");
+  const port = process.env.PORT || 3000;
+  await app.start(port);
+  console.log(`⚡️ John Pork OAuth server & Socket Mode are active on port ${port}!`);
 })();
