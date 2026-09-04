@@ -334,7 +334,6 @@ app.command("/johnpork-help", async ({ ack, respond }) => {
 `Available Commands:
 /johnpork-ping - Check bot latency
 /johnpork-catfact - Get a cat fact
-/johnpork-joke - Get a random joke
 /johnpork-randomquranayah - Get a random Quranic verse
 /johnpork-food - Get a random food image
 /johnpork-weather - Check the weather with John Pork's take
