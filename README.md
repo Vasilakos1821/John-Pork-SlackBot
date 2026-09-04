@@ -30,4 +30,3 @@ He was built as a project for Hack Club but taught me a lot about JS, APIs, Linu
 
 ---
 made by: Vasilakos1821
-```
