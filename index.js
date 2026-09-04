@@ -54,6 +54,24 @@ const johnPorkJokes = [
   "What is John Pork’s golden rule? Never decline a call from destiny."
 ];
 
+const { App, LogLevel } = require("@slack/bolt");
+const { FileInstallationStore } = require("@slack/oauth");
+
+const app = new App({
+  signingSecret: process.env.SLACK_SIGNING_SECRET,
+  clientId: process.env.SLACK_CLIENT_ID,
+  clientSecret: process.env.SLACK_CLIENT_SECRET,
+  stateSecret: process.env.SLACK_STATE_SECRET,
+  scopes: ["commands", "chat:write"],
+  installationStore: new FileInstallationStore({
+    baseDir: "./installations", // Automatically saves tokens for each workspace to disk
+  }),
+  installerOptions: {
+    directInstall: true,
+  },
+  port: process.env.PORT || 3000,
+});
+
 function getJohnPorkWeatherTake(condition, tempC) {
   const desc = condition.toLowerCase();
 
