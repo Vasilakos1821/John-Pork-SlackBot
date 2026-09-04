@@ -31,4 +31,7 @@ He was built as a project for Hack Club but taught me a lot about JS, APIs, Linu
 - `/johnpork-randomquranayah`: get a random Quran verse
 
 ---
-By: Vasilakos1821
+## Credits
+<b>Google Gemini</b>: Really helped when I got stuck on how to actually deploy it and helped me find Ngrok<br>
+Also got inspiration since this is my first README and didn't know how to start from <a href="https://stardance.hackclub.com/@amateur_tech_guy">Amateur Tech Guy</a> so make sure to check his projects as well!<br>
+By: <b>Vasilakos1821</b>
